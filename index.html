@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Ресторан «Круглая башня»">
+<title>Ресторан Круглая башня</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- ====================================================================
+     ВАШИ ДАННЫЕ. Меняйте ТОЛЬКО текст внутри кавычек "..." и сохраняйте файл.
+     Если оставить "" (пусто) — на сайте останется заглушка в [скобках].
+     ==================================================================== -->
+<script>
+window.SITE = {
+  slogan:        "",   // слоган под названием, например "Вкус средневековья"
+  phone:         "",   // телефон для звонка, например "+37060000000"
+  phoneText:     "",   // как показать на сайте, например "+370 600 00000" (можно пусто)
+  menuUrl:       "",   // ссылка на меню, например "https://site.com/menu.pdf"
+  address:       "",   // адрес
+  hours:         "",   // часы работы, например "Ежедневно 12:00–23:00"
+  mapUrl:        "",   // ссылка на карту (Google Maps / Яндекс.Карты)
+  instagram:     "",   // ссылка на Instagram
+  telegram:      "",   // ссылка на Telegram
+  vk:            "",   // ссылка на ВКонтакте
+  aboutSubtitle: "",   // подзаголовок в блоке «О ресторане»
+  about1:        "",   // текст о ресторане
+  about2:        "",   // текст о кухне
+  about3:        ""    // текст об атмосфере
+};
+// Уважать ли системную настройку «уменьшить движение» (true = да, false = нет).
+// Для публичного сайта рекомендуется true. Пока false, чтобы вы видели анимации.
+window.RESPECT_REDUCED_MOTION = false;
+</script>
+
+<style>
+/* =========================== ПЕРЕМЕННЫЕ =========================== */
+:root{
+  --gold:#c9a96e; --gold-2:#e8d19f;
+  --ink:#0d0d0d; --text:#f2ece2; --dim:rgba(242,236,226,.74);
+  --line:rgba(201,169,110,.30);
+  --f-head:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --f-body:'Inter','Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --px:0; --py:0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--f-body);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit}
+
+/* ====== КОНТЕЙНЕР: родной scroll-snap (без JS-перехвата = без ложных свайпов) ====== */
+.snap{height:100vh;height:100dvh;overflow-y:auto;overflow-x:hidden;
+  scroll-snap-type:y mandatory;overscroll-behavior:none;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.snap::-webkit-scrollbar{display:none}
+.screen{position:relative;height:100vh;height:100dvh;overflow:hidden;isolation:isolate;
+  display:flex;align-items:center;
+  scroll-snap-align:start;scroll-snap-stop:always}
+
+/* =========================== ИКОНКИ =========================== */
+.ico{width:1.25em;height:1.25em;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* ====================== ПОЯВЛЕНИЕ ЭЛЕМЕНТОВ ====================== */
+.rv{opacity:0;transform:translateY(18px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease);
+  transition-delay:var(--delay,0ms)}
+.screen.is-active .rv{opacity:1;transform:none}
+.screen:not(.is-active) .rv{transition-delay:0ms;transition-duration:.25s}
+
+/* ============================ ЭКРАН 1 ============================ */
+.screen--hero{justify-content:center;text-align:center}
+.bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;z-index:-3}
+.hero-shade{position:absolute;inset:0;z-index:-2;
+  background:
+    radial-gradient(ellipse at center,rgba(13,13,13,.18) 0%,rgba(13,13,13,.62) 100%),
+    linear-gradient(180deg,rgba(13,13,13,.55) 0%,rgba(13,13,13,.10) 40%,rgba(13,13,13,.78) 100%)}
+#embers{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.hero-content{position:relative;padding:2rem 1.25rem;max-width:62rem;
+  transform:translate3d(calc(var(--px)*7px),calc(var(--py)*5px),0);transition:transform .5s ease-out}
+
+.eyebrow{display:flex;align-items:center;gap:.8rem;font-size:.72rem;font-weight:500;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.eyebrow::after{content:"";height:1px;width:2.4rem;background:var(--line)}
+.eyebrow--center{justify-content:center}
+.eyebrow--center::before{content:"";height:1px;width:2.4rem;background:var(--line)}
+
+.hero-title{font-family:var(--f-head);font-weight:700;color:var(--gold);
+  font-size:clamp(2.9rem,9vw,7rem);line-height:1.05;letter-spacing:.015em;margin-top:.9rem;
+  text-shadow:0 4px 40px rgba(0,0,0,.6)}
+.letter{display:inline-block;opacity:0;transform:translateY(.5em);filter:blur(10px)}
+.screen.is-active .letter{animation:letterIn 1s var(--ease) both;animation-delay:calc(var(--i)*55ms + 150ms)}
+@keyframes letterIn{to{opacity:1;transform:none;filter:blur(0)}}
+
+.rule{display:block;height:1px;width:0;margin:1.1rem auto 1.25rem;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  transition:width 1.3s var(--ease) 1s}
+.screen.is-active .rule{width:min(240px,55vw)}
+.screen:not(.is-active) .rule{transition-delay:0s;transition-duration:.2s}
+
+.hero-slogan{font-family:var(--f-head);font-style:italic;font-weight:500;
+  font-size:clamp(1.15rem,2.6vw,1.7rem);color:var(--dim);letter-spacing:.03em;margin-bottom:2.3rem}
+.hero-buttons{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+
+/* ========================= КНОПКИ ========================= */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.65rem;
+  padding:.95rem 1.7rem;border-radius:999px;border:1.5px solid var(--gold);color:var(--gold);
+  font:500 .8rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  overflow:hidden;cursor:pointer;background:rgba(255,255,255,.03);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  transition:transform .35s var(--ease),box-shadow .35s,background .35s,color .35s}
+.btn::after{content:"";position:absolute;inset:0;transform:translateX(-130%);
+  background:linear-gradient(105deg,transparent 32%,rgba(255,255,255,.38) 50%,transparent 68%);
+  transition:transform .9s var(--ease)}
+.btn:hover::after,.btn:focus-visible::after{transform:translateX(130%)}
+.btn:hover,.btn:focus-visible{transform:translateY(-2px);box-shadow:0 12px 34px rgba(201,169,110,.22);outline:none}
+.btn .ico{transition:transform .35s var(--ease)}
+.btn:hover .ico--go{transform:translateX(4px)}
+.btn--gold{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#15110d;border-color:transparent;
+  box-shadow:0 10px 30px rgba(201,169,110,.28)}
+.btn--wide{width:100%}
+
+/* ===================== ПОДСКАЗКА «ЛИСТАЙТЕ» ===================== */
+.hint{position:absolute;left:50%;bottom:calc(1.4rem + env(safe-area-inset-bottom));transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.1rem;background:none;border:0;cursor:pointer;
+  color:var(--dim);font-size:.68rem;letter-spacing:.26em;text-transform:uppercase}
+.hint .ico{width:1.1rem;height:1.1rem;color:var(--gold);animation:chev 2s ease-in-out infinite}
+.hint .ico:nth-of-type(2){animation-delay:.25s;margin-top:-.55rem}
+@keyframes chev{0%{opacity:0;transform:translateY(-5px)}50%{opacity:1}100%{opacity:0;transform:translateY(6px)}}
+
+/* ======================== ЭКРАНЫ 2 И 3 (фото) ======================== */
+.screen--photo{padding-inline:clamp(1.25rem,6vw,7rem)}
+.screen--left{justify-content:flex-start}
+.screen--right{justify-content:flex-end}
+
+.bg-wrap{position:absolute;inset:-3%;z-index:-2;
+  transform:translate3d(calc(var(--px)*-14px),calc(var(--py)*-9px),0);transition:transform .5s ease-out}
+.bg-photo{width:100%;height:100%;object-fit:cover;display:block}
+.screen--left  .bg-photo{object-position:70% 50%;transform-origin:70% 50%}
+.screen--right .bg-photo{object-position:30% 50%;transform-origin:30% 50%}
+.screen.is-active .bg-photo{animation:kb 26s ease-out both}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.1)}}
+
+/* затемнение только со стороны панели — иллюстрация остаётся яркой */
+.shade{position:absolute;inset:0;z-index:-1}
+.screen--left  .shade{background:
+  linear-gradient(90deg,rgba(9,9,9,.86) 0%,rgba(9,9,9,.55) 34%,rgba(9,9,9,.06) 62%,transparent 100%),
+  linear-gradient(180deg,rgba(9,9,9,.35),transparent 25%,transparent 75%,rgba(9,9,9,.4))}
+.screen--right .shade{background:
+  linear-gradient(270deg,rgba(9,9,9,.86) 0%,rgba(9,9,9,.55) 34%,rgba(9,9,9,.06) 62%,transparent 100%),
+  linear-gradient(180deg,rgba(9,9,9,.35),transparent 25%,transparent 75%,rgba(9,9,9,.4))}
+
+.panel{position:relative;width:min(100%,30rem);max-height:calc(100dvh - 3rem);overflow:auto;overscroll-behavior:contain;
+  padding:clamp(1.4rem,2.4vw,2.4rem);border-radius:22px;border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(26,23,20,.74),rgba(11,11,11,.62));
+  -webkit-backdrop-filter:blur(14px) saturate(130%);backdrop-filter:blur(14px) saturate(130%);
+  box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07);
+  scrollbar-width:thin;
+  opacity:0;transform:translateX(calc(var(--dir,-1)*54px));
+  transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.screen--right .panel{--dir:1}
+.screen.is-active .panel{opacity:1;transform:none}
+.screen:not(.is-active) .panel{transition-duration:.25s}
+.panel::before{content:"";position:absolute;left:2rem;top:-1px;width:64px;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent)}
+.panel h2{font-family:var(--f-head);font-weight:600;color:var(--gold-2);
+  font-size:clamp(2rem,3.3vw,3rem);line-height:1.05;margin:.7rem 0 .35rem}
+.panel .sub{font-family:var(--f-head);font-style:italic;font-size:1.15rem;color:var(--dim);margin-bottom:1.3rem}
+
+.feat,.info{display:flex;gap:.95rem;align-items:flex-start}
+.feat+.feat,.info+.info{margin-top:1rem}
+.ic{flex:0 0 2.6rem;width:2.6rem;height:2.6rem;border-radius:50%;display:grid;place-items:center;
+  color:var(--gold);border:1px solid var(--line);background:rgba(201,169,110,.08);
+  transition:background .35s,color .35s,transform .35s var(--ease)}
+.ic .ico{width:1.2rem;height:1.2rem}
+.feat p{color:var(--dim);font-size:.95rem;line-height:1.65;padding-top:.3rem}
+.info .lbl{display:block;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.15rem}
+.info .val{display:block;font-size:1.02rem;line-height:1.45;color:var(--text);text-decoration:none}
+a.info:hover .ic,a.info:focus-visible .ic{background:var(--gold);color:#15110d;transform:scale(1.08)}
+a.info{text-decoration:none;color:inherit}
+
+.cta{margin-top:1.5rem}
+.panel-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1.2rem;flex-wrap:wrap}
+.socials{display:flex;gap:.6rem}
+.soc{width:2.7rem;height:2.7rem;border-radius:50%;display:grid;place-items:center;color:var(--gold);
+  border:1px solid var(--line);text-decoration:none;
+  transition:background .35s,color .35s,transform .35s var(--ease)}
+.soc:hover,.soc:focus-visible{background:var(--gold);color:#15110d;transform:translateY(-3px);outline:none}
+.maplink{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .3s}
+.maplink:hover{border-bottom-color:var(--gold)}
+.maplink .ico{width:1rem;height:1rem}
+
+/* ======================= НАВИГАЦИЯ / ДЕКОР ======================= */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:30;pointer-events:none}
+.progress i{display:block;height:100%;transform-origin:left;transform:scaleX(0);
+  background:linear-gradient(90deg,var(--gold),var(--gold-2))}
+.dots{position:fixed;right:clamp(.6rem,1.6vw,1.6rem);top:50%;transform:translateY(-50%);z-index:20;
+  display:flex;flex-direction:column;gap:1rem}
+.dot{position:relative;width:.75rem;height:.75rem;border-radius:50%;border:1.5px solid var(--gold);
+  background:transparent;cursor:pointer;padding:0;transition:background .3s,transform .3s var(--ease),box-shadow .3s}
+.dot::before{content:"";position:absolute;inset:-.65rem}
+.dot.active{background:var(--gold);transform:scale(1.2);box-shadow:0 0 0 5px rgba(201,169,110,.18)}
+.dot span{position:absolute;right:1.7rem;top:50%;transform:translate(6px,-50%);white-space:nowrap;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text);opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s var(--ease)}
+.dot:hover span,.dot:focus-visible span{opacity:1;transform:translate(0,-50%)}
+.counter{position:fixed;left:clamp(1.25rem,6vw,7rem);bottom:calc(1.6rem + env(safe-area-inset-bottom));z-index:20;
+  display:flex;align-items:center;gap:.75rem;font-size:.72rem;letter-spacing:.2em;color:var(--dim);pointer-events:none}
+.counter b{font-family:var(--f-head);font-size:1.5rem;font-weight:600;color:var(--gold);letter-spacing:.04em}
+.counter i{display:block;width:2.6rem;height:1px;background:var(--line)}
+
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* ========================= ТАБЛЕТ ========================= */
+@media (max-width:1100px){
+  .panel{width:min(100%,27rem)}
+}
+
+/* ==== ТЕЛЕФОН и ПЛАНШЕТ В ПОРТРЕТЕ: панель внизу, иллюстрация сверху ==== */
+@media (max-width:700px),(orientation:portrait) and (max-width:1024px){
+  .screen--photo{align-items:flex-end;justify-content:center;
+    padding:0 .9rem calc(1rem + env(safe-area-inset-bottom))}
+  .screen--left .bg-photo,.screen--right .bg-photo{object-position:center 30%;transform-origin:center 30%}
+  .screen--left .shade,.screen--right .shade{background:
+    linear-gradient(0deg,rgba(9,9,9,.88) 0%,rgba(9,9,9,.55) 42%,transparent 72%),
+    linear-gradient(180deg,rgba(9,9,9,.35),transparent 22%)}
+  .panel{width:100%;max-width:34rem;max-height:60dvh;padding:1.25rem 1.2rem;border-radius:20px;
+    transform:translateY(46px)}
+  .panel::before{left:1.4rem}
+  .panel h2{font-size:1.9rem;margin-top:.5rem}
+  .panel .sub{font-size:1.05rem;margin-bottom:.9rem}
+  .feat p{font-size:.9rem;line-height:1.55}
+  .ic{flex-basis:2.3rem;width:2.3rem;height:2.3rem}
+  .info .val{font-size:.95rem}
+  .info+.info,.feat+.feat{margin-top:.75rem}
+  .cta{margin-top:1.1rem}
+  .btn{padding:.9rem 1.3rem}
+  .counter{display:none}
+  .dots{right:.45rem;gap:.85rem}
+  .hero-slogan{margin-bottom:1.8rem}
+}
+@media (max-width:700px) and (max-height:700px){
+  .panel .eyebrow{display:none}
+  .panel h2{font-size:1.65rem;margin-top:0}
+}
+
+/* ============ ТЕЛЕФОН НА БОКУ / НИЗКИЕ ЭКРАНЫ ============ */
+@media (orientation:landscape) and (max-height:560px){
+  .hero-title{font-size:clamp(2.2rem,8vh,3.6rem);margin-top:.4rem}
+  .hero-slogan{margin-bottom:1.1rem;font-size:1.05rem}
+  .rule{margin:.6rem auto .7rem}
+  .hint,.counter{display:none}
+  .panel{width:min(48vw,26rem);padding:1rem 1.2rem;max-height:calc(100dvh - 1.4rem)}
+  .panel h2{font-size:1.6rem;margin:.3rem 0 .2rem}
+  .panel .sub{margin-bottom:.6rem;font-size:1rem}
+  .panel .eyebrow{display:none}
+  .feat p{font-size:.85rem;line-height:1.45}
+  .info+.info,.feat+.feat{margin-top:.55rem}
+  .ic{flex-basis:2.1rem;width:2.1rem;height:2.1rem}
+  .cta{margin-top:.8rem}.panel-foot{margin-top:.7rem}
+  .btn{padding:.7rem 1.2rem}
+  .soc{width:2.3rem;height:2.3rem}
+}
+
+/* =================== УМЕНЬШЕННОЕ ДВИЖЕНИЕ (по флагу) =================== */
+.rm *,.rm *::before,.rm *::after{animation:none!important;transition:none!important}
+.rm .rv,.rm .panel,.rm .letter{opacity:1!important;transform:none!important;filter:none!important}
+.rm .rule{width:min(240px,55vw)!important}
+</style>
+<noscript><style>.rv,.panel,.letter{opacity:1!important;transform:none!important;filter:none!important}.rule{width:200px}</style></noscript>
+</head>
+
+<body>
+
+<!-- ==================== СПРАЙТ ИКОН (линейные, в стиле Lucide) ==================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-cal" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
+  <symbol id="i-food" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-go" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-castle" viewBox="0 0 24 24"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></symbol>
+  <symbol id="i-tg" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-vk" viewBox="0 0 24 24"><text x="12" y="16" text-anchor="middle" font-size="10.5" font-weight="700" font-family="Inter,Arial,sans-serif" fill="currentColor" stroke="none">VK</text></symbol>
+</svg>
+
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+<nav class="dots" aria-label="Навигация по экранам">
+  <button class="dot active" type="button" aria-label="Главная" data-go="0"><span>Главная</span></button>
+  <button class="dot" type="button" aria-label="О ресторане" data-go="1"><span>О ресторане</span></button>
+  <button class="dot" type="button" aria-label="Контакты" data-go="2"><span>Контакты</span></button>
+</nav>
+
+<div class="counter" aria-hidden="true"><b id="cnt">01</b><i></i><span>03</span></div>
+
+<main class="snap" id="snap">
+
+  <!-- ============================ ЭКРАН 1: ШАПКА С ВИДЕО ============================ -->
+  <section class="screen screen--hero" id="s1" aria-label="Главная">
+    <video class="bg-video" autoplay muted loop playsinline preload="metadata" poster="poster.jpg"
+           disablepictureinpicture disableremoteplayback aria-hidden="true">
+      <source src="hero.mp4" type="video/mp4">
+    </video>
+    <div class="hero-shade"></div>
+    <canvas id="embers" aria-hidden="true"></canvas>
+
+    <div class="hero-content">
+      <p class="eyebrow eyebrow--center rv" style="--delay:0ms">Ресторан</p>
+      <h1 class="hero-title" id="title" aria-label="Круглая башня">Круглая башня</h1>
+      <span class="rule" aria-hidden="true"></span>
+      <p class="hero-slogan rv" style="--delay:1300ms" data-t="slogan">[слоган ресторана]</p>
+      <div class="hero-buttons rv" style="--delay:1500ms">
+        <a class="btn btn--gold" href="#" data-tel><svg class="ico"><use href="#i-cal"/></svg>Забронировать стол</a>
+        <a class="btn" href="#" data-href="menuUrl" target="_blank" rel="noopener noreferrer"><svg class="ico"><use href="#i-food"/></svg>Меню</a>
+      </div>
+    </div>
+
+    <button class="hint" type="button" data-go="1" aria-label="Листайте вниз">
+      <span>Листайте вниз</span>
+      <svg class="ico"><use href="#i-down"/></svg>
+      <svg class="ico"><use href="#i-down"/></svg>
+    </button>
+  </section>
+
+  <!-- ============================ ЭКРАН 2: О РЕСТОРАНЕ (панель слева) ============================ -->
+  <section class="screen screen--photo screen--left" id="s2" aria-label="О ресторане">
+    <div class="bg-wrap"><img class="bg-photo" src="photo1.jpg" alt="" loading="lazy"></div>
+    <div class="shade"></div>
+
+    <article class="panel">
+      <p class="eyebrow rv" style="--delay:250ms">02 · О нас</p>
+      <h2 class="rv" style="--delay:350ms">О ресторане</h2>
+      <p class="sub rv" style="--delay:450ms" data-t="aboutSubtitle">[подзаголовок]</p>
+
+      <div class="feat rv" style="--delay:550ms">
+        <span class="ic"><svg class="ico"><use href="#i-castle"/></svg></span>
+        <p data-t="about1">[текст о ресторане]</p>
+      </div>
+      <div class="feat rv" style="--delay:650ms">
+        <span class="ic"><svg class="ico"><use href="#i-food"/></svg></span>
+        <p data-t="about2">[текст о кухне]</p>
+      </div>
+      <div class="feat rv" style="--delay:750ms">
+        <span class="ic"><svg class="ico"><use href="#i-spark"/></svg></span>
+        <p data-t="about3">[текст об атмосфере]</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============================ ЭКРАН 3: КОНТАКТЫ (панель справа) ============================ -->
+  <section class="screen screen--photo screen--right" id="s3" aria-label="Контакты">
+    <div class="bg-wrap"><img class="bg-photo" src="photo2.jpg" alt="" loading="lazy"></div>
+    <div class="shade"></div>
+
+    <article class="panel">
+      <p class="eyebrow rv" style="--delay:250ms">03 · Контакты</p>
+      <h2 class="rv" style="--delay:350ms">Контакты</h2>
+
+      <div class="info rv" style="--delay:480ms">
+        <span class="ic"><svg class="ico"><use href="#i-pin"/></svg></span>
+        <div><span class="lbl">Адрес</span><span class="val" data-t="address">[адрес]</span></div>
+      </div>
+      <a class="info rv" style="--delay:580ms" href="#" data-tel>
+        <span class="ic"><svg class="ico"><use href="#i-phone"/></svg></span>
+        <div><span class="lbl">Телефон</span><span class="val" data-t="phoneText">[телефон]</span></div>
+      </a>
+      <div class="info rv" style="--delay:680ms">
+        <span class="ic"><svg class="ico"><use href="#i-clock"/></svg></span>
+        <div><span class="lbl">Часы работы</span><span class="val" data-t="hours">[часы работы]</span></div>
+      </div>
+
+      <div class="cta rv" style="--delay:800ms">
+        <a class="btn btn--gold btn--wide" href="#" data-tel>
+          <svg class="ico"><use href="#i-cal"/></svg>Забронировать стол<svg class="ico ico--go"><use href="#i-go"/></svg>
+        </a>
+      </div>
+
+      <div class="panel-foot rv" style="--delay:900ms">
+        <div class="socials">
+          <a class="soc" href="#" data-href="instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="ico"><use href="#i-insta"/></svg></a>
+          <a class="soc" href="#" data-href="telegram"  target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg class="ico"><use href="#i-tg"/></svg></a>
+          <a class="soc" href="#" data-href="vk"        target="_blank" rel="noopener noreferrer" aria-label="ВКонтакте"><svg class="ico"><use href="#i-vk"/></svg></a>
+        </div>
+        <a class="maplink" href="#" data-href="mapUrl" target="_blank" rel="noopener noreferrer">Как добраться<svg class="ico"><use href="#i-out"/></svg></a>
+      </div>
+    </article>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var C = window.SITE || {};
+  var snap = document.getElementById('snap');
+  var screens = Array.prototype.slice.call(document.querySelectorAll('.screen'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.dot'));
+  var cnt = document.getElementById('cnt');
+  var bar = document.getElementById('bar');
+  var current = 0;
+
+  /* ---------- «уменьшить движение» — только если включено в настройке сверху ---------- */
+  var rmQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var respectRM = window.RESPECT_REDUCED_MOTION === true && rmQuery.matches;
+  if (respectRM) document.documentElement.classList.add('rm');
+
+  /* ---------- подстановка ваших данных ---------- */
+  var phoneText = C.phoneText || C.phone;
+  document.querySelectorAll('[data-t]').forEach(function (el) {
+    var k = el.getAttribute('data-t');
+    var v = k === 'phoneText' ? phoneText : C[k];
+    if (v) el.textContent = v;
+  });
+  document.querySelectorAll('[data-href]').forEach(function (el) {
+    var v = C[el.getAttribute('data-href')];
+    if (v) el.setAttribute('href', v);
+  });
+  document.querySelectorAll('[data-tel]').forEach(function (el) {
+    if (C.phone) el.setAttribute('href', 'tel:' + String(C.phone).replace(/[^\d+]/g, ''));
+  });
+  // ссылки-заглушки «#» не должны дёргать страницу
+  document.querySelectorAll('a[href="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); });
+  });
+
+  /* ---------- анимация букв в заголовке ---------- */
+  var title = document.getElementById('title');
+  if (title) {
+    var txt = title.textContent; title.textContent = '';
+    Array.prototype.forEach.call(txt, function (ch, i) {
+      var s = document.createElement('span');
+      s.className = 'letter'; s.setAttribute('aria-hidden', 'true');
+      s.style.setProperty('--i', i);
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      title.appendChild(s);
+    });
+  }
+
+  /* ---------- переходы (клик по точкам, стрелка, клавиши) ---------- */
+  function goTo(i) {
+    if (i < 0 || i >= screens.length) return;
+    screens[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.querySelectorAll('[data-go]').forEach(function (b) {
+    b.addEventListener('click', function () { goTo(parseInt(b.getAttribute('data-go'), 10)); });
+  });
+  document.addEventListener('keydown', function (e) {
+    var k = e.key;
+    if (k === 'ArrowDown' || k === 'PageDown') { e.preventDefault(); goTo(current + 1); }
+    else if (k === 'ArrowUp' || k === 'PageUp') { e.preventDefault(); goTo(current - 1); }
+    else if (k === 'Home') { e.preventDefault(); goTo(0); }
+    else if (k === 'End')  { e.preventDefault(); goTo(screens.length - 1); }
+  });
+  // Колесо, тачпад и свайп обрабатывает сам браузер (scroll-snap) — поэтому ложных пролистываний нет.
+
+  /* ---------- активный экран ---------- */
+  function setActive(i) {
+    current = i;
+    screens.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
+    dots.forEach(function (d, n) { d.classList.toggle('active', n === i); });
+    cnt.textContent = '0' + (i + 1);
+    if (i === 0) embers.start(); else embers.stop();
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) setActive(screens.indexOf(en.target));
+    });
+  }, { root: snap, threshold: 0.6 });
+
+  /* ---------- полоса прогресса ---------- */
+  var ticking = false;
+  snap.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () {
+      var max = snap.scrollHeight - snap.clientHeight;
+      bar.style.transform = 'scaleX(' + (max > 0 ? snap.scrollTop / max : 0) + ')';
+      ticking = false;
+    });
+  }, { passive: true });
+
+  /* ---------- лёгкий параллакс от мыши (только на компьютере) ---------- */
+  if (!respectRM && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    var pending = false, mx = 0, my = 0;
+    window.addEventListener('pointermove', function (e) {
+      mx = (e.clientX / window.innerWidth - .5) * 2;
+      my = (e.clientY / window.innerHeight - .5) * 2;
+      if (pending) return; pending = true;
+      requestAnimationFrame(function () {
+        var r = document.documentElement.style;
+        r.setProperty('--px', mx.toFixed(3)); r.setProperty('--py', my.toFixed(3));
+        pending = false;
+      });
+    }, { passive: true });
+  }
+
+  /* ---------- искры над видео (canvas, только на первом экране) ---------- */
+  var embers = (function () {
+    var cv = document.getElementById('embers');
+    if (!cv || !cv.getContext || respectRM) return { start: function () {}, stop: function () {} };
+    var ctx = cv.getContext('2d'), W = 0, H = 0, parts = [], raf = 0, run = false;
+    function resize() {
+      var d = Math.min(window.devicePixelRatio || 1, 2);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+    }
+    function spawn(init) {
+      return { x: Math.random() * W, y: init ? Math.random() * H : H + 12,
+        r: Math.random() * 1.7 + .6, vy: -(Math.random() * .55 + .25), vx: (Math.random() - .5) * .25,
+        ph: Math.random() * 6.28, a: Math.random() * .55 + .3 };
+    }
+    function init() {
+      resize(); parts = [];
+      var n = W < 700 ? 24 : 46;
+      for (var i = 0; i < n; i++) parts.push(spawn(true));
+    }
+    function frame(t) {
+      if (!run) return;
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'lighter';
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        p.y += p.vy; p.x += p.vx + Math.sin(t / 900 + p.ph) * .28;
+        if (p.y < -14) parts[i] = spawn(false);
+        var tw = .55 + .45 * Math.sin(t / 420 + p.ph);
+        ctx.fillStyle = 'rgba(232,180,100,' + (p.a * .10 * tw).toFixed(3) + ')';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 3.4, 0, 6.283); ctx.fill();
+        ctx.fillStyle = 'rgba(255,214,150,' + (p.a * tw).toFixed(3) + ')';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+      }
+      raf = requestAnimationFrame(frame);
+    }
+    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(init, 200); });
+    init();
+    return {
+      start: function () { if (run) return; run = true; raf = requestAnimationFrame(frame); },
+      stop:  function () { run = false; cancelAnimationFrame(raf); ctx.clearRect(0, 0, W, H); }
+    };
+  })();
+
+  /* ---------- запуск ---------- */
+  screens.forEach(function (s) { io.observe(s); });
+  setActive(0);
+
+  /* фоновое видео: без звука, поэтому браузер разрешает автозапуск; подстраховка на случай блокировки */
+  var v = document.querySelector('.bg-video');
+  if (v) {
+    v.muted = true;
+    var tryPlay = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
+    tryPlay();
+    v.addEventListener('loadeddata', tryPlay);
+    ['click', 'touchstart', 'keydown'].forEach(function (ev) {
+      window.addEventListener(ev, tryPlay, { once: true, passive: true });
+    });
+  }
+})();
+</script>
+</body>
+</html>
