@@ -10,7 +10,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- ====================================================================
      ВАШИ ДАННЫЕ. Меняйте ТОЛЬКО текст внутри кавычек "..." и сохраняйте файл.
@@ -227,8 +227,11 @@ a.info{text-decoration:none;color:inherit}
 @media (max-width:700px),(orientation:portrait) and (max-width:1024px){
   .screen--photo{align-items:flex-end;justify-content:center;
     padding:0 .9rem calc(1rem + env(safe-area-inset-bottom))}
-  #s2 .bg-photo{object-position:20% 34%;transform-origin:20% 34%}
-  #s3 .bg-photo{object-position:36% 40%;transform-origin:36% 40%}
+  #s2 .bg-photo,#s3 .bg-photo{object-position:50% 30%;transform-origin:50% 30%}
+  .screen.is-active .bg-photo{animation:none}
+  .panel{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(14,13,12,.88)}
+  .btn{-webkit-backdrop-filter:none;backdrop-filter:none}
+  .letter{filter:none}
   .screen--left .shade,.screen--right .shade{background:
     linear-gradient(0deg,rgba(9,9,9,.88) 0%,rgba(9,9,9,.55) 42%,transparent 72%),
     linear-gradient(180deg,rgba(9,9,9,.35),transparent 22%)}
@@ -311,10 +314,8 @@ a.info{text-decoration:none;color:inherit}
 
   <!-- ============================ ЭКРАН 1: ШАПКА С ВИДЕО ============================ -->
   <section class="screen screen--hero" id="s1" aria-label="Главная">
-    <video class="bg-video" autoplay muted loop playsinline preload="metadata" poster="poster.jpg"
-           disablepictureinpicture disableremoteplayback aria-hidden="true">
-      <source src="hero.mp4" type="video/mp4">
-    </video>
+    <video class="bg-video" muted loop playsinline preload="none"
+           disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
     <div class="hero-shade"></div>
     <canvas id="embers" aria-hidden="true"></canvas>
 
@@ -338,7 +339,7 @@ a.info{text-decoration:none;color:inherit}
 
   <!-- ============================ ЭКРАН 2: О РЕСТОРАНЕ (панель справа, башня слева на фото) ============================ -->
   <section class="screen screen--photo screen--right" id="s2" aria-label="О ресторане">
-    <div class="bg-wrap"><img class="bg-photo" src="photo1.jpg" alt="" loading="lazy"></div>
+    <div class="bg-wrap"><picture><source media="(max-width:700px), (orientation:portrait) and (max-width:1024px)" srcset="photo1-m.jpg"><img class="bg-photo" src="photo1.jpg" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="shade"></div>
 
     <article class="panel">
@@ -363,7 +364,7 @@ a.info{text-decoration:none;color:inherit}
 
   <!-- ============================ ЭКРАН 3: КОНТАКТЫ (панель слева, озеро) ============================ -->
   <section class="screen screen--photo screen--left" id="s3" aria-label="Контакты">
-    <div class="bg-wrap"><img class="bg-photo" src="photo2.jpg" alt="" loading="lazy"></div>
+    <div class="bg-wrap"><picture><source media="(max-width:700px), (orientation:portrait) and (max-width:1024px)" srcset="photo2-m.jpg"><img class="bg-photo" src="photo2.jpg" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="shade"></div>
 
     <article class="panel">
@@ -513,7 +514,7 @@ a.info{text-decoration:none;color:inherit}
     if (!cv || !cv.getContext || respectRM) return { start: function () {}, stop: function () {} };
     var ctx = cv.getContext('2d'), W = 0, H = 0, parts = [], raf = 0, run = false;
     function resize() {
-      var d = Math.min(window.devicePixelRatio || 1, 2);
+      var d = Math.min(window.devicePixelRatio || 1, window.innerWidth < 700 ? 1.25 : 2);
       W = cv.clientWidth; H = cv.clientHeight;
       cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
     }
@@ -524,7 +525,7 @@ a.info{text-decoration:none;color:inherit}
     }
     function init() {
       resize(); parts = [];
-      var n = W < 700 ? 24 : 46;
+      var n = W < 700 ? 14 : 46;
       for (var i = 0; i < n; i++) parts.push(spawn(true));
     }
     function frame(t) {
@@ -555,12 +556,35 @@ a.info{text-decoration:none;color:inherit}
   screens.forEach(function (s) { io.observe(s); });
   setActive(0);
 
-  /* фоновое видео: без звука, поэтому браузер разрешает автозапуск; подстраховка на случай блокировки */
+  /* фоновое видео: подбираем лёгкую версию под экран и связь */
   var v = document.querySelector('.bg-video');
   if (v) {
-    v.muted = true;
-    var tryPlay = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
-    tryPlay();
+    var mqPhone = window.matchMedia('(max-width:700px), (orientation:portrait) and (max-width:1024px)');
+    var mqSmall = window.matchMedia('(max-width:900px), (max-height:560px) and (orientation:landscape)');
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var saveData = !!(conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')));
+    var pickSet = function () {
+      if (mqPhone.matches) return { v: 'hero-m.mp4', p: 'poster-m.jpg' };
+      if (mqSmall.matches) return { v: 'hero-s.mp4', p: 'poster-s.jpg' };
+      return { v: 'hero.mp4', p: 'poster.jpg' };
+    };
+    var cur = '';
+    var load = function () {
+      var set = pickSet();
+      if (set.v === cur) return;
+      cur = set.v;
+      v.setAttribute('poster', set.p);
+      if (saveData) return;                 // экономия трафика / очень медленная сеть: только картинка
+      v.preload = 'auto';
+      v.src = set.v;
+      v.muted = true;
+      var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
+    };
+    v.setAttribute('poster', pickSet().p);  // лёгкая картинка сразу
+    var start = function () { load(); };
+    if (document.readyState === 'complete') start(); else window.addEventListener('load', start, { once: true });
+    if (mqPhone.addEventListener) mqPhone.addEventListener('change', load);
+    var tryPlay = function () { if (cur && !saveData) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } };
     v.addEventListener('loadeddata', tryPlay);
     ['click', 'touchstart', 'keydown'].forEach(function (ev) {
       window.addEventListener(ev, tryPlay, { once: true, passive: true });
