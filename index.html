@@ -227,7 +227,8 @@ a.info{text-decoration:none;color:inherit}
 @media (max-width:700px),(orientation:portrait) and (max-width:1024px){
   .screen--photo{align-items:flex-end;justify-content:center;
     padding:0 .9rem calc(1rem + env(safe-area-inset-bottom))}
-  .screen--left .bg-photo,.screen--right .bg-photo{object-position:center 30%;transform-origin:center 30%}
+  #s2 .bg-photo{object-position:20% 34%;transform-origin:20% 34%}
+  #s3 .bg-photo{object-position:36% 40%;transform-origin:36% 40%}
   .screen--left .shade,.screen--right .shade{background:
     linear-gradient(0deg,rgba(9,9,9,.88) 0%,rgba(9,9,9,.55) 42%,transparent 72%),
     linear-gradient(180deg,rgba(9,9,9,.35),transparent 22%)}
@@ -335,8 +336,8 @@ a.info{text-decoration:none;color:inherit}
     </button>
   </section>
 
-  <!-- ============================ ЭКРАН 2: О РЕСТОРАНЕ (панель слева) ============================ -->
-  <section class="screen screen--photo screen--left" id="s2" aria-label="О ресторане">
+  <!-- ============================ ЭКРАН 2: О РЕСТОРАНЕ (панель справа, башня слева на фото) ============================ -->
+  <section class="screen screen--photo screen--right" id="s2" aria-label="О ресторане">
     <div class="bg-wrap"><img class="bg-photo" src="photo1.jpg" alt="" loading="lazy"></div>
     <div class="shade"></div>
 
@@ -360,8 +361,8 @@ a.info{text-decoration:none;color:inherit}
     </article>
   </section>
 
-  <!-- ============================ ЭКРАН 3: КОНТАКТЫ (панель справа) ============================ -->
-  <section class="screen screen--photo screen--right" id="s3" aria-label="Контакты">
+  <!-- ============================ ЭКРАН 3: КОНТАКТЫ (панель слева, озеро) ============================ -->
+  <section class="screen screen--photo screen--left" id="s3" aria-label="Контакты">
     <div class="bg-wrap"><img class="bg-photo" src="photo2.jpg" alt="" loading="lazy"></div>
     <div class="shade"></div>
 
