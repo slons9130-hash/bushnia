@@ -40,6 +40,19 @@ window.RESPECT_REDUCED_MOTION = false;
 
 <style>
 
+/* ==== ФИНАЛ: ПК не режет фото по краям; телефон — широкая кино-полоса видео ==== */
+@media (hover:hover) and (pointer:fine){
+  .bg-wrap{inset:0}
+  .screen--right .bg-photo{object-position:35% 70%}
+  .screen--left  .bg-photo{object-position:65% 60%}
+}
+@media (orientation:portrait) and (max-width:1024px){
+  .screen--hero{flex-direction:column;justify-content:center}
+  .bg-video{position:relative;inset:auto;width:calc(100% - 1.6rem);height:auto;
+    aspect-ratio:16/9;object-fit:cover;z-index:auto;
+    border-radius:16px;outline:1px solid var(--line);
+    box-shadow:0 24px 70px rgba(0,0,0,.6);margin:0 auto 1.1rem}
+}
   /* само видео: растягиваем на весь экран, убираем рамку и размытие */
   .bg-video,
   .screen--hero video {
@@ -204,7 +217,7 @@ button{font:inherit;color:inherit}
 .screen--left  .bg-photo{object-position:70% 50%;transform-origin:70% 50%}
 .screen--right .bg-photo{object-position:30% 50%;transform-origin:30% 50%}
 .screen.is-active .bg-photo{animation:kb 26s ease-out both}
-@keyframes kb{from{transform:scale(1)}to{transform:scale(1.1)}}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.05)}}
 
 /* затемнение только со стороны панели — иллюстрация остаётся яркой */
 .shade{position:absolute;inset:0;z-index:-1}
