@@ -12,10 +12,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<!-- ====================================================================
-     ВАШИ ДАННЫЕ. Меняйте ТОЛЬКО текст внутри кавычек "..." и сохраняйте файл.
-     Если оставить "" (пусто) — на сайте останется заглушка в [скобках].
-     ==================================================================== -->
 <script>
 window.SITE = {
   slogan:        "",   // слоган под названием, например "Вкус средневековья"
@@ -33,26 +29,10 @@ window.SITE = {
   about2:        "",   // текст о кухне
   about3:        ""    // текст об атмосфере
 };
-// Уважать ли системную настройку «уменьшить движение» (true = да, false = нет).
-// Для публичного сайта рекомендуется true. Пока false, чтобы вы видели анимации.
 window.RESPECT_REDUCED_MOTION = false;
 </script>
 
 <style>
-/* ==== ФИНАЛ: ПК не режет фото по краям; телефон — широкая кино-полоса видео ==== */
-@media (hover:hover) and (pointer:fine){
-  .bg-wrap{inset:0}
-  .screen--right .bg-photo{object-position:35% 70%}
-  .screen--left  .bg-photo{object-position:65% 60%}
-}
-@media (orientation:portrait) and (max-width:1024px){
-  .screen--hero{flex-direction:column;justify-content:center}
-  .bg-video{position:relative;inset:auto;width:calc(100% - 1.6rem);height:auto;
-    aspect-ratio:16/9;object-fit:cover;z-index:auto;
-    border-radius:16px;outline:1px solid var(--line);
-    box-shadow:0 24px 70px rgba(0,0,0,.6);margin:0 auto 1.1rem}
-}
-
 /* =========================== ПЕРЕМЕННЫЕ =========================== */
 :root{
   --gold:#c9a96e; --gold-2:#e8d19f;
@@ -69,7 +49,7 @@ html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--
 a{color:inherit}
 button{font:inherit;color:inherit}
 
-/* ====== КОНТЕЙНЕР: родной scroll-snap (без JS-перехвата = без ложных свайпов) ====== */
+/* ====== КОНТЕЙНЕР ====== */
 .snap{height:100vh;height:100dvh;overflow-y:auto;overflow-x:hidden;
   scroll-snap-type:y mandatory;overscroll-behavior:none;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .snap::-webkit-scrollbar{display:none}
@@ -90,7 +70,7 @@ button{font:inherit;color:inherit}
 
 /* ============================ ЭКРАН 1 ============================ */
 .screen--hero{justify-content:center;text-align:center}
-.bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;z-index:-3}
+.bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-3}
 .hero-shade{position:absolute;inset:0;z-index:-2;
   background:
     radial-gradient(ellipse at center,rgba(13,13,13,.18) 0%,rgba(13,13,13,.62) 100%),
@@ -148,18 +128,13 @@ button{font:inherit;color:inherit}
 .hint .ico:nth-of-type(2){animation-delay:.25s;margin-top:-.55rem}
 @keyframes chev{0%{opacity:0;transform:translateY(-5px)}50%{opacity:1}100%{opacity:0;transform:translateY(6px)}}
 
-/* ======================== ЭКРАНЫ 2 И 3 (фото/видео) ======================== */
+/* ======================== ЭКРАНЫ 2 И 3 (ФОТО И ВИДЕО) ======================== */
 .screen--photo{padding-inline:clamp(1.25rem,6vw,7rem)}
 .screen--left{justify-content:flex-start}
 .screen--right{justify-content:flex-end}
 
-.bg-wrap{position:absolute;inset:-3%;z-index:-2;
-  transform:translate3d(calc(var(--px)*-14px),calc(var(--py)*-9px),0);transition:transform .5s ease-out}
-.bg-photo{width:100%;height:100%;object-fit:cover;display:block}
-.screen--left  .bg-photo{object-position:70% 50%;transform-origin:70% 50%}
-.screen--right .bg-photo{object-position:30% 50%;transform-origin:30% 50%}
-.screen.is-active .bg-photo{animation:kb 26s ease-out both}
-@keyframes kb{from{transform:scale(1)}to{transform:scale(1.05)}}
+.bg-wrap{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.bg-photo,.bg-video-2{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 
 /* затемнение только со стороны панели — иллюстрация остаётся яркой */
 .shade{position:absolute;inset:0;z-index:-1}
@@ -237,18 +212,19 @@ a.info{text-decoration:none;color:inherit}
   .panel{width:min(100%,27rem)}
 }
 
-/* ==== ТЕЛЕФОН и ПЛАНШЕТ В ПОРТРЕТЕ: панель внизу, иллюстрация сверху ==== */
+/* ==== ТЕЛЕФОН и ПЛАНШЕТ В ПОРТРЕТЕ: панель внизу, фон на весь экран ==== */
 @media (max-width:700px),(orientation:portrait) and (max-width:1024px){
   .screen--photo{align-items:flex-end;justify-content:center;
     padding:0 .9rem calc(1rem + env(safe-area-inset-bottom))}
-  #s2 .bg-photo,#s3 .bg-photo{object-position:50% 30%;transform-origin:50% 30%}
-  .screen.is-active .bg-photo{animation:none}
   .panel{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(14,13,12,.88)}
   .btn{-webkit-backdrop-filter:none;backdrop-filter:none}
   .letter{filter:none}
+  
+  /* затемнение снизу, где панель */
   .screen--left .shade,.screen--right .shade{background:
     linear-gradient(0deg,rgba(9,9,9,.88) 0%,rgba(9,9,9,.55) 42%,transparent 72%),
     linear-gradient(180deg,rgba(9,9,9,.35),transparent 22%)}
+    
   .panel{width:100%;max-width:34rem;max-height:60dvh;padding:1.25rem 1.2rem;border-radius:20px;
     transform:translateY(46px)}
   .panel::before{left:1.4rem}
@@ -269,81 +245,16 @@ a.info{text-decoration:none;color:inherit}
   .panel h2{font-size:1.65rem;margin-top:0}
 }
 
-/* маленькие размытые подложки (встроены, без лишних загрузок) */
-#s1{--fill:url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAAYACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDntrRqp7Gr8bxud4fbgfd96z2vE8wrsyop8d3aq37yFznp7UkU7dDq7HXoYdkYkMm3lj6V1djqdrfr+5kDN6d68uttltK0inMZPQ1o6Pq0em3jzkZUg8U7ktHpm2iuEl8dOHO2MYoqrk8piLbwsykoBilmjhDfNGNuOuKKKyNCaCGEowK/KelSrZwyQlWjAJ7iiiqQiL+ybfuvNFFFUI//2Q==")}
-#s2{--fill:url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAAYACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDsLu4itIt8rYFZ66tBLIBG2VzyaxW1RdTxNsOw8AMae8UbDoqDtitPadjNRXU6UOuzduG31qodTshOsZnTcegzXO3kk1vaOiznYeozXN3K+Y6tG20jvmm6o407s9UEqY4orgrTXbi1t1hLByvc0U/aRB0pFfT5zBZpEY2JFXBdO648sgelFFYWKK8yTS2rR7cMe9UorC4jPzEMKKKYXH+XIOCimiiilyIfMz//2Q==")}
-#s3{--fill:url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAAYACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwCol9G3Q1It3kZAzXPsHHC9KtQySxQ4K5reNZ9TJ010Npb1x2NDag2MYNUrSQSR5cHNOdQehFaqo2Q4IlN7z92iqpj/9oUUuZhyoqbQoyw/EVH5mSAWOKKK5GjoLkciYCpkmklBBHNFFaRd0Q9yPafWiiimB//2Q==")}
-
-/* ==== ТЕЛЕФОН И ПЛАНШЕТ В ПОРТРЕТЕ: фото и видео показываются ЦЕЛИКОМ (кадр не обрезается) ==== */
-@media (orientation:portrait) and (max-width:1024px){
-  :root{--mtop:calc(3dvh + env(safe-area-inset-top,0px));--mbot:env(safe-area-inset-bottom,0px)}
-  .screen--hero,.screen--photo{
-    background:linear-gradient(180deg,rgba(9,9,9,.45),rgba(9,9,9,.8)),var(--fill) center/cover no-repeat,#0d0d0d}
-  .screen--photo .shade{display:none}
-
-  /* экран 1: видео на весь экран, текст поверх */
-  .hero-content{padding-top:0;transform:none}
-  .hero-title{font-size:clamp(2.1rem,10.5vw,3.6rem);white-space:nowrap}
-
-  /* экраны 2 и 3: фото/видео целиком сверху, панель под ним по центру свободного места */
-  .screen--photo{align-items:center;
-    padding:calc(var(--mtop) + 66.667vw) .9rem calc(.8rem + var(--mbot))}
-  .bg-wrap{inset:auto;left:0;right:0;top:var(--mtop);height:auto;transform:none;transition:none;
-    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%);
-            mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%)}
-  .bg-photo{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;object-position:center}
-  .panel{max-height:calc(100dvh - var(--mtop) - 66.667vw - 1.6rem - var(--mbot))}
-}
-@media (orientation:portrait) and (max-width:1024px) and (max-height:720px){
-  .hint{display:none}
-  .hero-slogan{margin-bottom:1.1rem;font-size:1.05rem}
-  .rule{margin:.7rem auto .8rem}
-  .hero-buttons{gap:.6rem}
-  .btn{padding:.8rem 1.25rem;font-size:.75rem}
-  .panel{padding:1rem 1.05rem}
-  .panel h2{font-size:1.55rem}
-  .panel .sub{margin-bottom:.6rem}
-  .feat+.feat,.info+.info{margin-top:.55rem}
-  .ic{flex-basis:2.1rem;width:2.1rem;height:2.1rem}
-  .feat p{font-size:.85rem;line-height:1.5;padding-top:.15rem}
-  .info .val{font-size:.9rem}
-  .cta{margin-top:.75rem}
-  .panel-foot{margin-top:.7rem;gap:.6rem}
-  .soc{width:2.4rem;height:2.4rem}
-}
-
-/* ============ ТЕЛЕФОН НА БОКУ / НИЗКИЕ ЭКРАНЫ ============ */
-@media (orientation:landscape) and (max-height:560px){
-  .hero-title{font-size:clamp(2.2rem,8vh,3.6rem);margin-top:.4rem}
-  .hero-slogan{margin-bottom:1.1rem;font-size:1.05rem}
-  .rule{margin:.6rem auto .7rem}
-  .hint,.counter{display:none}
-  .panel{width:min(48vw,26rem);padding:1rem 1.2rem;max-height:calc(100dvh - 1.4rem)}
-  .panel h2{font-size:1.6rem;margin:.3rem 0 .2rem}
-  .panel .sub{margin-bottom:.6rem;font-size:1rem}
-  .panel .eyebrow{display:none}
-  .feat p{font-size:.85rem;line-height:1.45}
-  .info+.info,.feat+.feat{margin-top:.55rem}
-  .ic{flex-basis:2.1rem;width:2.1rem;height:2.1rem}
-  .cta{margin-top:.8rem}.panel-foot{margin-top:.7rem}
-  .btn{padding:.7rem 1.2rem}
-  .soc{width:2.3rem;height:2.3rem}
-}
-
 /* =================== УМЕНЬШЕННОЕ ДВИЖЕНИЕ (по флагу) =================== */
 .rm *,.rm *::before,.rm *::after{animation:none!important;transition:none!important}
 .rm .rv,.rm .panel,.rm .letter{opacity:1!important;transform:none!important;filter:none!important}
 .rm .rule{width:min(240px,55vw)!important}
-
-/* ==== ВТОРОЕ ВИДЕО НА ЭКРАНЕ «О РЕСТОРАНЕ» (конь и рыцарь) ==== */
-.bg-video-2{width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;z-index:-2}
 </style>
 <noscript><style>.rv,.panel,.letter{opacity:1!important;transform:none!important;filter:none!important}.rule{width:200px}</style></noscript>
 </head>
 
 <body>
 
-<!-- ==================== СПРАЙТ ИКОН (линейные, в стиле Lucide) ==================== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="i-cal" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
   <symbol id="i-food" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
@@ -372,7 +283,6 @@ a.info{text-decoration:none;color:inherit}
 
 <main class="snap" id="snap">
 
-  <!-- ============================ ЭКРАН 1: ШАПКА С ВИДЕО ============================ -->
   <section class="screen screen--hero" id="s1" aria-label="Главная">
     <video class="bg-video" muted loop playsinline preload="none"
            disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
@@ -397,12 +307,10 @@ a.info{text-decoration:none;color:inherit}
     </button>
   </section>
 
-  <!-- ============================ ЭКРАН 2: О РЕСТОРАНЕ (ВИДЕО: конь и рыцарь) ============================ -->
   <section class="screen screen--photo screen--right" id="s2" aria-label="О ресторане">
     <div class="bg-wrap">
-      <video class="bg-photo bg-video-2" muted loop playsinline preload="none"
-             disablepictureinpicture disableremoteplayback aria-hidden="true"
-             poster="poster.jpg"></video>
+      <video class="bg-photo bg-video-2" muted loop playsinline preload="metadata"
+             disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
     </div>
     <div class="shade"></div>
 
@@ -426,7 +334,6 @@ a.info{text-decoration:none;color:inherit}
     </article>
   </section>
 
-  <!-- ============================ ЭКРАН 3: КОНТАКТЫ (панель слева, озеро) ============================ -->
   <section class="screen screen--photo screen--left" id="s3" aria-label="Контакты">
     <div class="bg-wrap"><picture><source media="(max-width:700px), (orientation:portrait) and (max-width:1024px)" srcset="photo2-m.jpg"><img class="bg-photo" src="photo2.jpg" alt="" loading="lazy" decoding="async"></picture></div>
     <div class="shade"></div>
@@ -478,12 +385,10 @@ a.info{text-decoration:none;color:inherit}
   var bar = document.getElementById('bar');
   var current = 0;
 
-  /* ---------- «уменьшить движение» — только если включено в настройке сверху ---------- */
   var rmQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   var respectRM = window.RESPECT_REDUCED_MOTION === true && rmQuery.matches;
   if (respectRM) document.documentElement.classList.add('rm');
 
-  /* ---------- подстановка ваших данных ---------- */
   var phoneText = C.phoneText || C.phone;
   document.querySelectorAll('[data-t]').forEach(function (el) {
     var k = el.getAttribute('data-t');
@@ -497,12 +402,10 @@ a.info{text-decoration:none;color:inherit}
   document.querySelectorAll('[data-tel]').forEach(function (el) {
     if (C.phone) el.setAttribute('href', 'tel:' + String(C.phone).replace(/[^\d+]/g, ''));
   });
-  // ссылки-заглушки «#» не должны дёргать страницу
   document.querySelectorAll('a[href="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) { e.preventDefault(); });
   });
 
-  /* ---------- анимация букв в заголовке ---------- */
   var title = document.getElementById('title');
   if (title) {
     var txt = title.textContent; title.textContent = '';
@@ -515,7 +418,6 @@ a.info{text-decoration:none;color:inherit}
     });
   }
 
-  /* ---------- переходы (клик по точкам, стрелка, клавиши) ---------- */
   function goTo(i) {
     if (i < 0 || i >= screens.length) return;
     screens[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -530,9 +432,7 @@ a.info{text-decoration:none;color:inherit}
     else if (k === 'Home') { e.preventDefault(); goTo(0); }
     else if (k === 'End')  { e.preventDefault(); goTo(screens.length - 1); }
   });
-  // Колесо, тачпад и свайп обрабатывает сам браузер (scroll-snap) — поэтому ложных пролистываний нет.
 
-  /* ---------- активный экран ---------- */
   function setActive(i) {
     current = i;
     screens.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
@@ -546,7 +446,6 @@ a.info{text-decoration:none;color:inherit}
     });
   }, { root: snap, threshold: 0.6 });
 
-  /* ---------- полоса прогресса ---------- */
   var ticking = false;
   snap.addEventListener('scroll', function () {
     if (ticking) return; ticking = true;
@@ -557,7 +456,6 @@ a.info{text-decoration:none;color:inherit}
     });
   }, { passive: true });
 
-  /* ---------- лёгкий параллакс от мыши (только на компьютере) ---------- */
   if (!respectRM && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
     var pending = false, mx = 0, my = 0;
     window.addEventListener('pointermove', function (e) {
@@ -572,7 +470,6 @@ a.info{text-decoration:none;color:inherit}
     }, { passive: true });
   }
 
-  /* ---------- искры над видео (canvas, только на первом экране) ---------- */
   var embers = (function () {
     var cv = document.getElementById('embers');
     if (!cv || !cv.getContext || respectRM) return { start: function () {}, stop: function () {} };
@@ -616,17 +513,14 @@ a.info{text-decoration:none;color:inherit}
     };
   })();
 
-  /* ---------- запуск ---------- */
   screens.forEach(function (s) { io.observe(s); });
   setActive(0);
 
-  /* ---------- медиа-запросы и экономия трафика (общие для обоих видео) ---------- */
   var mqPhone = window.matchMedia('(max-width:700px), (orientation:portrait) and (max-width:1024px)');
   var mqSmall = window.matchMedia('(max-width:900px), (max-height:560px) and (orientation:landscape)');
   var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   var saveData = !!(conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')));
 
-  /* ---------- ВИДЕО 1: hero2 (бой рыцарей) на главном экране ---------- */
   var v = document.querySelector('.bg-video');
   if (v) {
     var pickSet = function () {
@@ -640,13 +534,13 @@ a.info{text-decoration:none;color:inherit}
       if (set.v === cur) return;
       cur = set.v;
       v.setAttribute('poster', set.p);
-      if (saveData) return;                 // экономия трафика / очень медленная сеть: только картинка
+      if (saveData) return;
       v.preload = 'auto';
       v.src = set.v;
       v.muted = true;
       var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
     };
-    v.setAttribute('poster', pickSet().p);  // лёгкая картинка сразу
+    v.setAttribute('poster', pickSet().p);
     var start = function () { load(); };
     if (document.readyState === 'complete') start(); else window.addEventListener('load', start, { once: true });
     if (mqPhone.addEventListener) mqPhone.addEventListener('change', load);
@@ -657,7 +551,6 @@ a.info{text-decoration:none;color:inherit}
     });
   }
 
-  /* ---------- ВИДЕО 2: конь и рыцарь на экране «О ресторане» ---------- */
   var v2 = document.querySelector('.bg-video-2');
   if (v2) {
     var pickSet2 = function () {
@@ -675,6 +568,7 @@ a.info{text-decoration:none;color:inherit}
       v2.preload = 'auto';
       v2.src = set.v;
       v2.muted = true;
+      v2.setAttribute('autoplay', ''); // принудительный автозапуск
       var pr = v2.play(); if (pr && pr.catch) pr.catch(function () {});
     };
     v2.setAttribute('poster', pickSet2().p);
@@ -685,7 +579,6 @@ a.info{text-decoration:none;color:inherit}
     ['click', 'touchstart', 'keydown'].forEach(function (ev) {
       window.addEventListener(ev, tryPlay2, { once: true, passive: true });
     });
-    // автозапуск когда экран 2 виден, пауза когда ушли с него
     var io2 = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) {
