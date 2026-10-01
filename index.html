@@ -678,7 +678,7 @@ a.info{text-decoration:none;color:inherit}
     var mqSmall = window.matchMedia('(max-width:900px), (max-height:560px) and (orientation:landscape)');
     var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
     var saveData = !!(conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')));
-    var pickSet = function () {
+       var pickSet = function () {
       if (mqPhone.matches) return { v: 'hero2-m.mp4', p: 'poster2-m.jpg' };
       if (mqSmall.matches) return { v: 'hero-s.mp4', p: 'poster-s.jpg' };
       return { v: 'hero2.mp4', p: 'poster2.jpg' };
