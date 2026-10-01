@@ -39,7 +39,6 @@ window.RESPECT_REDUCED_MOTION = false;
 </script>
 
 <style>
-
 /* ==== ФИНАЛ: ПК не режет фото по краям; телефон — широкая кино-полоса видео ==== */
 @media (hover:hover) and (pointer:fine){
   .bg-wrap{inset:0}
@@ -53,64 +52,7 @@ window.RESPECT_REDUCED_MOTION = false;
     border-radius:16px;outline:1px solid var(--line);
     box-shadow:0 24px 70px rgba(0,0,0,.6);margin:0 auto 1.1rem}
 }
-  /* само видео: растягиваем на весь экран, убираем рамку и размытие */
-  .bg-video,
-  .screen--hero video {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center !important;
-    aspect-ratio: auto !important;
-    border-radius: 0 !important;
-    -webkit-mask-image: none !important;
-    mask-image: none !important;
-    filter: none !important;
-    z-index: 0 !important;
-  }
 
-  /* если видео обёрнуто в контейнер с рамкой — сбрасываем его */
-  .hero-frame,
-  .video-frame,
-  .bg-video-wrap,
-  .screen--hero .frame {
-    width: 100% !important;
-    height: 100% !important;
-    aspect-ratio: auto !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  /* затемнение снизу для читабельности текста */
-  .hero-shade {
-    display: block !important;
-    position: absolute !important;
-    inset: 0 !important;
-    z-index: 1 !important;
-    background: linear-gradient(
-      180deg,
-      rgba(13,13,13,.55) 0%,
-      rgba(13,13,13,0) 26%,
-      rgba(13,13,13,0) 42%,
-      rgba(13,13,13,.9) 100%
-    ) !important;
-    pointer-events: none !important;
-  }
-
-  /* контент поверх затемнения */
-  .hero-title,
-  .hero-subtitle,
-  .hero-buttons {
-    position: relative;
-    z-index: 2;
-  }
-
-  .hero-title {
-    text-shadow: 0 4px 30px rgba(0,0,0,.8);
-  }
-}
 /* =========================== ПЕРЕМЕННЫЕ =========================== */
 :root{
   --gold:#c9a96e; --gold-2:#e8d19f;
@@ -206,7 +148,7 @@ button{font:inherit;color:inherit}
 .hint .ico:nth-of-type(2){animation-delay:.25s;margin-top:-.55rem}
 @keyframes chev{0%{opacity:0;transform:translateY(-5px)}50%{opacity:1}100%{opacity:0;transform:translateY(6px)}}
 
-/* ======================== ЭКРАНЫ 2 И 3 (фото) ======================== */
+/* ======================== ЭКРАНЫ 2 И 3 (фото/видео) ======================== */
 .screen--photo{padding-inline:clamp(1.25rem,6vw,7rem)}
 .screen--left{justify-content:flex-start}
 .screen--right{justify-content:flex-end}
@@ -329,8 +271,8 @@ a.info{text-decoration:none;color:inherit}
 
 /* маленькие размытые подложки (встроены, без лишних загрузок) */
 #s1{--fill:url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAAYACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDntrRqp7Gr8bxud4fbgfd96z2vE8wrsyop8d3aq37yFznp7UkU7dDq7HXoYdkYkMm3lj6V1djqdrfr+5kDN6d68uttltK0inMZPQ1o6Pq0em3jzkZUg8U7ktHpm2iuEl8dOHO2MYoqrk8piLbwsykoBilmjhDfNGNuOuKKKyNCaCGEowK/KelSrZwyQlWjAJ7iiiqQiL+ybfuvNFFFUI//2Q==")}
-#s2{--fill:url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAAYACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDsLu4itIt8rYFZ66tBLIBG2VzyaxW1RdTxNsOw8AMae8UbDoqDtitPadjNRXU6UOuzduG31qodTshOsZnTcegzXO3kk1vaOiznYeozXN3K+Y6tG20jvmm6o407s9UEqY4orgrTXbi1t1hLByvc0U/aRB0pFfT5zBZpEY2JFXBdO648sgelFFYWKK8yTS2rR7cMe9UorC4jPzEMKKKYXH+XIOCimiiilyIfMz//2Q==")}
-#s3{--fill:url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAAYACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwCol9G3Q1It3kZAzXPsHHC9KtQySxQ4K5reNZ9TJ010Npb1x2NDag2MYNUrSQSR5cHNOdQehFaqo2Q4IlN7z92iqpj/ANoUUuZhyoqbQoyw/EVH5mSAWOKKK5GjoLkciYCpkmklBBHNFFaRd0Q9yPafWiiimB//2Q==")}
+#s2{--fill:url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAAYACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDsLu4itIt8rYFZ66tBLIBG2VzyaxW1RdTxNsOw8AMae8UbDoqDtitPadjNRXU6UOuzduG31qodTshOsZnTcegzXO3kk1vaOiznYeozXN3K+Y6tG20jvmm6o407s9UEqY4orgrTXbi1t1hLByvc0U/aRB0pFfT5zBZpEY2JFXBdO648sgelFFYWKK8yTS2rR7cMe9UorC4jPzEMKKKYXH+XIOCimiiilyIfMz//2Q==")}
+#s3{--fill:url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gAQTGF2YzYwLjMxLjEwMgD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAAYACQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwCol9G3Q1It3kZAzXPsHHC9KtQySxQ4K5reNZ9TJ010Npb1x2NDag2MYNUrSQSR5cHNOdQehFaqo2Q4IlN7z92iqpj/9oUUuZhyoqbQoyw/EVH5mSAWOKKK5GjoLkciYCpkmklBBHNFFaRd0Q9yPafWiiimB//2Q==")}
 
 /* ==== ТЕЛЕФОН И ПЛАНШЕТ В ПОРТРЕТЕ: фото и видео показываются ЦЕЛИКОМ (кадр не обрезается) ==== */
 @media (orientation:portrait) and (max-width:1024px){
@@ -343,7 +285,7 @@ a.info{text-decoration:none;color:inherit}
   .hero-content{padding-top:0;transform:none}
   .hero-title{font-size:clamp(2.1rem,10.5vw,3.6rem);white-space:nowrap}
 
-  /* экраны 2 и 3: фото целиком сверху, панель под ним по центру свободного места */
+  /* экраны 2 и 3: фото/видео целиком сверху, панель под ним по центру свободного места */
   .screen--photo{align-items:center;
     padding:calc(var(--mtop) + 66.667vw) .9rem calc(.8rem + var(--mbot))}
   .bg-wrap{inset:auto;left:0;right:0;top:var(--mtop);height:auto;transform:none;transition:none;
@@ -392,6 +334,9 @@ a.info{text-decoration:none;color:inherit}
 .rm *,.rm *::before,.rm *::after{animation:none!important;transition:none!important}
 .rm .rv,.rm .panel,.rm .letter{opacity:1!important;transform:none!important;filter:none!important}
 .rm .rule{width:min(240px,55vw)!important}
+
+/* ==== ВТОРОЕ ВИДЕО НА ЭКРАНЕ «О РЕСТОРАНЕ» (конь и рыцарь) ==== */
+.bg-video-2{width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;z-index:-2}
 </style>
 <noscript><style>.rv,.panel,.letter{opacity:1!important;transform:none!important;filter:none!important}.rule{width:200px}</style></noscript>
 </head>
@@ -452,9 +397,13 @@ a.info{text-decoration:none;color:inherit}
     </button>
   </section>
 
-  <!-- ============================ ЭКРАН 2: О РЕСТОРАНЕ (панель справа, башня слева на фото) ============================ -->
+  <!-- ============================ ЭКРАН 2: О РЕСТОРАНЕ (ВИДЕО: конь и рыцарь) ============================ -->
   <section class="screen screen--photo screen--right" id="s2" aria-label="О ресторане">
-    <div class="bg-wrap"><picture><source media="(max-width:700px), (orientation:portrait) and (max-width:1024px)" srcset="photo1-m.jpg"><img class="bg-photo" src="photo1.jpg" alt="" loading="lazy" decoding="async"></picture></div>
+    <div class="bg-wrap">
+      <video class="bg-photo bg-video-2" muted loop playsinline preload="none"
+             disablepictureinpicture disableremoteplayback aria-hidden="true"
+             poster="poster.jpg"></video>
+    </div>
     <div class="shade"></div>
 
     <article class="panel">
@@ -671,14 +620,16 @@ a.info{text-decoration:none;color:inherit}
   screens.forEach(function (s) { io.observe(s); });
   setActive(0);
 
-  /* фоновое видео: подбираем лёгкую версию под экран и связь */
+  /* ---------- медиа-запросы и экономия трафика (общие для обоих видео) ---------- */
+  var mqPhone = window.matchMedia('(max-width:700px), (orientation:portrait) and (max-width:1024px)');
+  var mqSmall = window.matchMedia('(max-width:900px), (max-height:560px) and (orientation:landscape)');
+  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  var saveData = !!(conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')));
+
+  /* ---------- ВИДЕО 1: hero2 (бой рыцарей) на главном экране ---------- */
   var v = document.querySelector('.bg-video');
   if (v) {
-    var mqPhone = window.matchMedia('(max-width:700px), (orientation:portrait) and (max-width:1024px)');
-    var mqSmall = window.matchMedia('(max-width:900px), (max-height:560px) and (orientation:landscape)');
-    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    var saveData = !!(conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')));
-       var pickSet = function () {
+    var pickSet = function () {
       if (mqPhone.matches) return { v: 'hero2-m.mp4', p: 'poster2-m.jpg' };
       if (mqSmall.matches) return { v: 'hero-s.mp4', p: 'poster-s.jpg' };
       return { v: 'hero2.mp4', p: 'poster2.jpg' };
@@ -704,6 +655,47 @@ a.info{text-decoration:none;color:inherit}
     ['click', 'touchstart', 'keydown'].forEach(function (ev) {
       window.addEventListener(ev, tryPlay, { once: true, passive: true });
     });
+  }
+
+  /* ---------- ВИДЕО 2: конь и рыцарь на экране «О ресторане» ---------- */
+  var v2 = document.querySelector('.bg-video-2');
+  if (v2) {
+    var pickSet2 = function () {
+      if (mqPhone.matches) return { v: 'hero-m%20(2).mp4', p: 'poster-m%20(1).jpg' };
+      if (mqSmall.matches) return { v: 'hero-s.mp4', p: 'poster-s.jpg' };
+      return { v: 'hero%20(1).mp4', p: 'poster.jpg' };
+    };
+    var cur2 = '';
+    var load2 = function () {
+      var set = pickSet2();
+      if (set.v === cur2) return;
+      cur2 = set.v;
+      v2.setAttribute('poster', set.p);
+      if (saveData) return;
+      v2.preload = 'auto';
+      v2.src = set.v;
+      v2.muted = true;
+      var pr = v2.play(); if (pr && pr.catch) pr.catch(function () {});
+    };
+    v2.setAttribute('poster', pickSet2().p);
+    if (document.readyState === 'complete') load2(); else window.addEventListener('load', load2, { once: true });
+    if (mqPhone.addEventListener) mqPhone.addEventListener('change', load2);
+    var tryPlay2 = function () { if (cur2 && !saveData) { var p = v2.play(); if (p && p.catch) p.catch(function () {}); } };
+    v2.addEventListener('loadeddata', tryPlay2);
+    ['click', 'touchstart', 'keydown'].forEach(function (ev) {
+      window.addEventListener(ev, tryPlay2, { once: true, passive: true });
+    });
+    // автозапуск когда экран 2 виден, пауза когда ушли с него
+    var io2 = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          if (cur2 && !saveData) { var p = v2.play(); if (p && p.catch) p.catch(function () {}); }
+        } else {
+          v2.pause();
+        }
+      });
+    }, { root: snap, threshold: 0.4 });
+    io2.observe(document.getElementById('s2'));
   }
 })();
 </script>
