@@ -14,26 +14,25 @@
 
 <script>
 window.SITE = {
-  slogan:        "",   // слоган под названием, например "Вкус средневековья"
-  phone:         "",   // телефон для звонка, например "+37060000000"
-  phoneText:     "",   // как показать на сайте, например "+370 600 00000" (можно пусто)
-  menuUrl:       "",   // ссылка на меню, например "https://site.com/menu.pdf"
-  address:       "",   // адрес
-  hours:         "",   // часы работы, например "Ежедневно 12:00–23:00"
-  mapUrl:        "",   // ссылка на карту (Google Maps / Яндекс.Карты)
-  instagram:     "",   // ссылка на Instagram
-  telegram:      "",   // ссылка на Telegram
-  vk:            "",   // ссылка на ВКонтакте
-  aboutSubtitle: "",   // подзаголовок в блоке «О ресторане»
-  about1:        "",   // текст о ресторане
-  about2:        "",   // текст о кухне
-  about3:        ""    // текст об атмосфере
+  slogan:        "",
+  phone:         "",
+  phoneText:     "",
+  menuUrl:       "",
+  address:       "",
+  hours:         "",
+  mapUrl:        "",
+  instagram:     "",
+  telegram:      "",
+  vk:            "",
+  aboutSubtitle: "",
+  about1:        "",
+  about2:        "",
+  about3:        ""
 };
 window.RESPECT_REDUCED_MOTION = false;
 </script>
 
 <style>
-/* =========================== ПЕРЕМЕННЫЕ =========================== */
 :root{
   --gold:#c9a96e; --gold-2:#e8d19f;
   --ink:#0d0d0d; --text:#f2ece2; --dim:rgba(242,236,226,.74);
@@ -49,7 +48,6 @@ html,body{height:100%;background:var(--ink);color:var(--text);font-family:var(--
 a{color:inherit}
 button{font:inherit;color:inherit}
 
-/* ====== КОНТЕЙНЕР ====== */
 .snap{height:100vh;height:100dvh;overflow-y:auto;overflow-x:hidden;
   scroll-snap-type:y mandatory;overscroll-behavior:none;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .snap::-webkit-scrollbar{display:none}
@@ -57,20 +55,18 @@ button{font:inherit;color:inherit}
   display:flex;align-items:center;
   scroll-snap-align:start;scroll-snap-stop:always}
 
-/* =========================== ИКОНКИ =========================== */
 .ico{width:1.25em;height:1.25em;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;
   stroke-linecap:round;stroke-linejoin:round}
 
-/* ====================== ПОЯВЛЕНИЕ ЭЛЕМЕНТОВ ====================== */
 .rv{opacity:0;transform:translateY(18px);
   transition:opacity .9s var(--ease),transform .9s var(--ease);
   transition-delay:var(--delay,0ms)}
 .screen.is-active .rv{opacity:1;transform:none}
 .screen:not(.is-active) .rv{transition-delay:0ms;transition-duration:.25s}
 
-/* ============================ ЭКРАН 1 ============================ */
+/* ЭКРАН 1 */
 .screen--hero{justify-content:center;text-align:center}
-.bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-3}
+.bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-3;background:#0d0d0d}
 .hero-shade{position:absolute;inset:0;z-index:-2;
   background:
     radial-gradient(ellipse at center,rgba(13,13,13,.18) 0%,rgba(13,13,13,.62) 100%),
@@ -102,7 +98,7 @@ button{font:inherit;color:inherit}
   font-size:clamp(1.15rem,2.6vw,1.7rem);color:var(--dim);letter-spacing:.03em;margin-bottom:2.3rem}
 .hero-buttons{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
 
-/* ========================= КНОПКИ ========================= */
+/* КНОПКИ */
 .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.65rem;
   padding:.95rem 1.7rem;border-radius:999px;border:1.5px solid var(--gold);color:var(--gold);
   font:500 .8rem var(--f-body);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
@@ -120,7 +116,7 @@ button{font:inherit;color:inherit}
   box-shadow:0 10px 30px rgba(201,169,110,.28)}
 .btn--wide{width:100%}
 
-/* ===================== ПОДСКАЗКА «ЛИСТАЙТЕ» ===================== */
+/* ПОДСКАЗКА */
 .hint{position:absolute;left:50%;bottom:calc(1.4rem + env(safe-area-inset-bottom));transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:.1rem;background:none;border:0;cursor:pointer;
   color:var(--dim);font-size:.68rem;letter-spacing:.26em;text-transform:uppercase}
@@ -128,15 +124,14 @@ button{font:inherit;color:inherit}
 .hint .ico:nth-of-type(2){animation-delay:.25s;margin-top:-.55rem}
 @keyframes chev{0%{opacity:0;transform:translateY(-5px)}50%{opacity:1}100%{opacity:0;transform:translateY(6px)}}
 
-/* ======================== ЭКРАНЫ 2 И 3 (ФОТО И ВИДЕО) ======================== */
+/* ЭКРАНЫ 2 И 3 */
 .screen--photo{padding-inline:clamp(1.25rem,6vw,7rem)}
 .screen--left{justify-content:flex-start}
 .screen--right{justify-content:flex-end}
 
-.bg-wrap{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.bg-wrap{position:absolute;inset:0;z-index:-2;overflow:hidden;background:#0d0d0d}
 .bg-photo,.bg-video-2{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 
-/* затемнение только со стороны панели — иллюстрация остаётся яркой */
 .shade{position:absolute;inset:0;z-index:-1}
 .screen--left  .shade{background:
   linear-gradient(90deg,rgba(9,9,9,.86) 0%,rgba(9,9,9,.55) 34%,rgba(9,9,9,.06) 62%,transparent 100%),
@@ -186,7 +181,7 @@ a.info{text-decoration:none;color:inherit}
 .maplink:hover{border-bottom-color:var(--gold)}
 .maplink .ico{width:1rem;height:1rem}
 
-/* ======================= НАВИГАЦИЯ / ДЕКОР ======================= */
+/* НАВИГАЦИЯ */
 .progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:30;pointer-events:none}
 .progress i{display:block;height:100%;transform-origin:left;transform:scaleX(0);
   background:linear-gradient(90deg,var(--gold),var(--gold-2))}
@@ -207,24 +202,22 @@ a.info{text-decoration:none;color:inherit}
 
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
-/* ========================= ТАБЛЕТ ========================= */
 @media (max-width:1100px){
   .panel{width:min(100%,27rem)}
 }
 
-/* ==== ТЕЛЕФОН и ПЛАНШЕТ В ПОРТРЕТЕ: панель внизу, фон на весь экран ==== */
+/* ТЕЛЕФОН И ПЛАНШЕТ В ПОРТРЕТЕ */
 @media (max-width:700px),(orientation:portrait) and (max-width:1024px){
   .screen--photo{align-items:flex-end;justify-content:center;
     padding:0 .9rem calc(1rem + env(safe-area-inset-bottom))}
   .panel{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(14,13,12,.88)}
   .btn{-webkit-backdrop-filter:none;backdrop-filter:none}
   .letter{filter:none}
-  
-  /* затемнение снизу, где панель */
+
   .screen--left .shade,.screen--right .shade{background:
     linear-gradient(0deg,rgba(9,9,9,.88) 0%,rgba(9,9,9,.55) 42%,transparent 72%),
     linear-gradient(180deg,rgba(9,9,9,.35),transparent 22%)}
-    
+
   .panel{width:100%;max-width:34rem;max-height:60dvh;padding:1.25rem 1.2rem;border-radius:20px;
     transform:translateY(46px)}
   .panel::before{left:1.4rem}
@@ -245,7 +238,6 @@ a.info{text-decoration:none;color:inherit}
   .panel h2{font-size:1.65rem;margin-top:0}
 }
 
-/* =================== УМЕНЬШЕННОЕ ДВИЖЕНИЕ (по флагу) =================== */
 .rm *,.rm *::before,.rm *::after{animation:none!important;transition:none!important}
 .rm .rv,.rm .panel,.rm .letter{opacity:1!important;transform:none!important;filter:none!important}
 .rm .rule{width:min(240px,55vw)!important}
@@ -283,6 +275,7 @@ a.info{text-decoration:none;color:inherit}
 
 <main class="snap" id="snap">
 
+  <!-- ЭКРАН 1 -->
   <section class="screen screen--hero" id="s1" aria-label="Главная">
     <video class="bg-video" muted loop playsinline preload="none"
            disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
@@ -307,9 +300,10 @@ a.info{text-decoration:none;color:inherit}
     </button>
   </section>
 
+  <!-- ЭКРАН 2 (видео) -->
   <section class="screen screen--photo screen--right" id="s2" aria-label="О ресторане">
     <div class="bg-wrap">
-      <video class="bg-photo bg-video-2" muted loop playsinline preload="metadata"
+      <video class="bg-photo bg-video-2" muted loop playsinline preload="none"
              disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
     </div>
     <div class="shade"></div>
@@ -334,8 +328,9 @@ a.info{text-decoration:none;color:inherit}
     </article>
   </section>
 
+  <!-- ЭКРАН 3 (фото) -->
   <section class="screen screen--photo screen--left" id="s3" aria-label="Контакты">
-    <div class="bg-wrap"><picture><source media="(max-width:700px), (orientation:portrait) and (max-width:1024px)" srcset="photo2-m.jpg"><img class="bg-photo" src="photo2.jpg" alt="" loading="lazy" decoding="async"></picture></div>
+    <div class="bg-wrap"><img class="bg-photo" src="photo2.jpg" alt="" loading="lazy" decoding="async"></div>
     <div class="shade"></div>
 
     <article class="panel">
@@ -389,15 +384,16 @@ a.info{text-decoration:none;color:inherit}
   var respectRM = window.RESPECT_REDUCED_MOTION === true && rmQuery.matches;
   if (respectRM) document.documentElement.classList.add('rm');
 
+  /* ---------- тексты и ссылки ---------- */
   var phoneText = C.phoneText || C.phone;
   document.querySelectorAll('[data-t]').forEach(function (el) {
     var k = el.getAttribute('data-t');
-    var v = k === 'phoneText' ? phoneText : C[k];
-    if (v) el.textContent = v;
+    var val = k === 'phoneText' ? phoneText : C[k];
+    if (val) el.textContent = val;
   });
   document.querySelectorAll('[data-href]').forEach(function (el) {
-    var v = C[el.getAttribute('data-href')];
-    if (v) el.setAttribute('href', v);
+    var val = C[el.getAttribute('data-href')];
+    if (val) el.setAttribute('href', val);
   });
   document.querySelectorAll('[data-tel]').forEach(function (el) {
     if (C.phone) el.setAttribute('href', 'tel:' + String(C.phone).replace(/[^\d+]/g, ''));
@@ -406,6 +402,7 @@ a.info{text-decoration:none;color:inherit}
     a.addEventListener('click', function (e) { e.preventDefault(); });
   });
 
+  /* ---------- заголовок по буквам ---------- */
   var title = document.getElementById('title');
   if (title) {
     var txt = title.textContent; title.textContent = '';
@@ -418,6 +415,7 @@ a.info{text-decoration:none;color:inherit}
     });
   }
 
+  /* ---------- навигация ---------- */
   function goTo(i) {
     if (i < 0 || i >= screens.length) return;
     screens[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -433,12 +431,14 @@ a.info{text-decoration:none;color:inherit}
     else if (k === 'End')  { e.preventDefault(); goTo(screens.length - 1); }
   });
 
+  var embers; /* объявлено заранее, создаётся ниже */
+
   function setActive(i) {
     current = i;
     screens.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
     dots.forEach(function (d, n) { d.classList.toggle('active', n === i); });
     cnt.textContent = '0' + (i + 1);
-    if (i === 0) embers.start(); else embers.stop();
+    if (embers) { if (i === 0) embers.start(); else embers.stop(); }
   }
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
@@ -456,6 +456,7 @@ a.info{text-decoration:none;color:inherit}
     });
   }, { passive: true });
 
+  /* ---------- параллакс ---------- */
   if (!respectRM && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
     var pending = false, mx = 0, my = 0;
     window.addEventListener('pointermove', function (e) {
@@ -470,7 +471,8 @@ a.info{text-decoration:none;color:inherit}
     }, { passive: true });
   }
 
-  var embers = (function () {
+  /* ---------- искры ---------- */
+  embers = (function () {
     var cv = document.getElementById('embers');
     if (!cv || !cv.getContext || respectRM) return { start: function () {}, stop: function () {} };
     var ctx = cv.getContext('2d'), W = 0, H = 0, parts = [], raf = 0, run = false;
@@ -516,80 +518,70 @@ a.info{text-decoration:none;color:inherit}
   screens.forEach(function (s) { io.observe(s); });
   setActive(0);
 
+  /* ==================== ВИДЕО ==================== */
   var mqPhone = window.matchMedia('(max-width:700px), (orientation:portrait) and (max-width:1024px)');
   var mqSmall = window.matchMedia('(max-width:900px), (max-height:560px) and (orientation:landscape)');
   var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   var saveData = !!(conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '')));
 
-  var v = document.querySelector('.bg-video');
-  if (v) {
-    var pickSet = function () {
-      if (mqPhone.matches) return { v: 'hero2-m.mp4', p: 'poster2-m.jpg' };
-      if (mqSmall.matches) return { v: 'hero-s.mp4', p: 'poster-s.jpg' };
-      return { v: 'hero2.mp4', p: 'poster2.jpg' };
-    };
+  /* Общая функция: подбирает файл под экран, грузит, играет только когда экран виден */
+  function setupVideo(video, section, pick) {
+    if (!video || !section) return;
     var cur = '';
-    var load = function () {
-      var set = pickSet();
-      if (set.v === cur) return;
+    var visible = false;
+
+    function play() {
+      if (!cur || saveData || !visible) return;
+      video.muted = true;
+      var pr = video.play();
+      if (pr && pr.catch) pr.catch(function () {});
+    }
+    function load() {
+      var set = pick();
+      video.setAttribute('poster', set.p);
+      if (saveData || set.v === cur) return;
       cur = set.v;
-      v.setAttribute('poster', set.p);
-      if (saveData) return;
-      v.preload = 'auto';
-      v.src = set.v;
-      v.muted = true;
-      var pr = v.play(); if (pr && pr.catch) pr.catch(function () {});
-    };
-    v.setAttribute('poster', pickSet().p);
-    var start = function () { load(); };
-    if (document.readyState === 'complete') start(); else window.addEventListener('load', start, { once: true });
+      video.muted = true;
+      video.defaultMuted = true;
+      video.preload = 'auto';
+      video.src = set.v;
+      video.load();
+      play();
+    }
+
+    video.setAttribute('poster', pick().p);
+    if (document.readyState === 'complete') load(); else window.addEventListener('load', load, { once: true });
+
     if (mqPhone.addEventListener) mqPhone.addEventListener('change', load);
-    var tryPlay = function () { if (cur && !saveData) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } };
-    v.addEventListener('loadeddata', tryPlay);
-    ['click', 'touchstart', 'keydown'].forEach(function (ev) {
-      window.addEventListener(ev, tryPlay, { once: true, passive: true });
+    if (mqSmall.addEventListener) mqSmall.addEventListener('change', load);
+
+    video.addEventListener('loadeddata', play);
+    video.addEventListener('canplay', play);
+    ['click', 'touchstart', 'keydown', 'pointerdown'].forEach(function (ev) {
+      window.addEventListener(ev, play, { once: true, passive: true });
     });
+
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        visible = en.isIntersecting;
+        if (visible) play(); else video.pause();
+      });
+    }, { root: snap, threshold: 0.25 }).observe(section);
   }
 
-  var v2 = document.querySelector('.bg-video-2');
-  if (v2) {
-    var pickSet2 = function () {
-      if (mqPhone.matches) return { v: 'hero-m%20(2).mp4', p: 'poster-m%20(1).jpg' };
-      if (mqSmall.matches) return { v: 'hero-s.mp4', p: 'poster-s.jpg' };
-      return { v: 'hero%20(1).mp4', p: 'poster.jpg' };
-    };
-    var cur2 = '';
-    var load2 = function () {
-      var set = pickSet2();
-      if (set.v === cur2) return;
-      cur2 = set.v;
-      v2.setAttribute('poster', set.p);
-      if (saveData) return;
-      v2.preload = 'auto';
-      v2.src = set.v;
-      v2.muted = true;
-      v2.setAttribute('autoplay', ''); // принудительный автозапуск
-      var pr = v2.play(); if (pr && pr.catch) pr.catch(function () {});
-    };
-    v2.setAttribute('poster', pickSet2().p);
-    if (document.readyState === 'complete') load2(); else window.addEventListener('load', load2, { once: true });
-    if (mqPhone.addEventListener) mqPhone.addEventListener('change', load2);
-    var tryPlay2 = function () { if (cur2 && !saveData) { var p = v2.play(); if (p && p.catch) p.catch(function () {}); } };
-    v2.addEventListener('loadeddata', tryPlay2);
-    ['click', 'touchstart', 'keydown'].forEach(function (ev) {
-      window.addEventListener(ev, tryPlay2, { once: true, passive: true });
-    });
-    var io2 = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) {
-          if (cur2 && !saveData) { var p = v2.play(); if (p && p.catch) p.catch(function () {}); }
-        } else {
-          v2.pause();
-        }
-      });
-    }, { root: snap, threshold: 0.4 });
-    io2.observe(document.getElementById('s2'));
-  }
+  /* Экран 1 */
+  setupVideo(document.querySelector('.bg-video'), document.getElementById('s1'), function () {
+    if (mqPhone.matches) return { v: 'hero2-m.mp4', p: 'poster2-m.jpg' };
+    if (mqSmall.matches) return { v: 'hero-s.mp4',  p: 'poster-s.jpg' };
+    return { v: 'hero2.mp4', p: 'poster2.jpg' };
+  });
+
+  /* Экран 2: имена БЕЗ пробелов и скобок */
+  setupVideo(document.querySelector('.bg-video-2'), document.getElementById('s2'), function () {
+    if (mqPhone.matches) return { v: 'about-m.mp4', p: 'about-poster-m.jpg' };
+    if (mqSmall.matches) return { v: 'about-m.mp4', p: 'about-poster-m.jpg' };
+    return { v: 'about.mp4', p: 'about-poster.jpg' };
+  });
 })();
 </script>
 </body>
